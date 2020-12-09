@@ -1,0 +1,17 @@
+.countryCard__container {
+  background-color: lightgreen;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 1rem;
+  border: 1px solid #eeeeee;
+  opacity: 0.9;
+  transition: all 0.2s ease-in-out;
+}
+.countryCard__container:hover {
+  opacity: 1;
+  transform: scale(1.03);
+}
+h5,
+h6 {
+  text-align: center;
+}

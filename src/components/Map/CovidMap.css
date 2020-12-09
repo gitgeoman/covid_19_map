@@ -1,8 +1,10 @@
 .leaflet-container {
 }
 #map {
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 5px;
   border: 1px solid #111;
-  height: 70vh;
+  height: 90vh;
   width: 95vw;
 }
