@@ -1,0 +1,6 @@
+.covid__afterLoad {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}

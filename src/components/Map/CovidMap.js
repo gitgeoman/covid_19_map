@@ -3,92 +3,150 @@ import "./CovidMap.css";
 //import leaflet
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+
 //data from context
 import { useStateValue } from "../Context/StateProvider";
+import Legend from "../Legend/Legend";
 
 function CovidMap() {
-  const [{ countriesData, covidData }] = useStateValue();
+  const [
+    { countriesData, covidData, dayOnMapNumber, legend, selector },
+  ] = useStateValue();
 
+  //function stylisation
   function getColor(d) {
-    console.log(d);
-    return d > 1000000
-      ? "#eb0707"
-      : d > 50000
-      ? "#BD0026"
-      : d > 20000
-      ? "#E31A1C"
-      : d > 10000
-      ? "#FC4E2A"
-      : d > 5000
-      ? "#FD8D3C"
-      : d > 2000
-      ? "#FEB24C"
-      : d > 1000
-      ? "#FED976"
+    return d > 1_000_000
+      ? legend[0].color
+      : d > 500_000
+      ? legend[1].color
+      : d > 200_000
+      ? legend[2].color
+      : d > 100_000
+      ? legend[3].color
+      : d > 50_000
+      ? legend[4].color
+      : d > 20_000
+      ? legend[5].color
+      : d > 10_000
+      ? legend[6].color
+      : d > 5_000
+      ? legend[7].color
+      : d > 2_000
+      ? legend[8].color
+      : d > 1_000
+      ? legend[9].color
       : d > 500
-      ? "#c7edb7"
+      ? legend[10].color
       : d > 200
-      ? "#f5dd53"
+      ? legend[11].color
       : d > 100
-      ? "#a9c730"
+      ? legend[12].color
       : d > 50
-      ? "#6fc730"
+      ? legend[13].color
+      : d > 20
+      ? legend[14].color
       : d > 10
-      ? "#30c744"
-      : "#FFEDA0";
+      ? legend[15].color
+      : d >= 0
+      ? legend[16].color
+      : "#fff";
   }
 
   function stylizacja(features) {
     return {
       fillColor: getColor(
         covidData[features.properties.ISO_A3]?.data[
-          covidData[features.properties.ISO_A3]?.data.length - 1
-        ].new_cases
+          dayOnMapNumber
+            ? dayOnMapNumber
+            : covidData[features.properties.ISO_A3]?.data.length - 1
+        ]?.new_cases
       ),
       weight: 2,
       opacity: 1,
-      color: "#38783d",
+      color: "#ddd",
       dashArray: "3",
       fillOpacity: 0.7,
     };
   }
+
+  //on each country function to set the actual data
   const onEachCountry = (features, layer) => {
     const name = features.properties.ADMIN;
-    console.log(
-      covidData[features.properties.ISO_A3]?.data[
-        covidData[features.properties.ISO_A3]?.data.length - 1
-      ]
-    );
+
     const total_cases =
       covidData[features.properties.ISO_A3]?.data[
-        covidData[features.properties.ISO_A3]?.data.length - 1
-      ].new_cases;
+        dayOnMapNumber
+          ? dayOnMapNumber
+          : covidData[features.properties.ISO_A3]?.data.length - 1
+      ]?.new_cases;
     const data =
       covidData[features.properties.ISO_A3]?.data[
-        covidData[features.properties.ISO_A3]?.data.length - 1
-      ].date;
+        dayOnMapNumber
+          ? dayOnMapNumber
+          : covidData[features.properties.ISO_A3]?.data.length - 1
+      ]?.date;
 
     layer.bindPopup(
       `Kraj: ${name} <br/> Stan na dzień: ${data} <hr/> Nowych zachorowań: ${total_cases} <hr/>`
     );
   };
 
-  // create map
+  const filterData = (features, layer) => {
+    return (
+      covidData[features.properties.ISO_A3]?.data[
+        dayOnMapNumber
+          ? dayOnMapNumber
+          : covidData[features.properties.ISO_A3]?.data.length - 1
+      ]?.new_cases > selector
+    );
+  };
+
+  // create map - tworzenie mapy
   const mapRef = useRef(null);
+  //definicja warstwy podstawowej
+  const baseLayer = L.geoJSON(countriesData, {
+    onEachFeature: onEachCountry,
+  });
+  const filteredLayer = useRef(null);
+  useEffect(() => {
+    if (selector !== null) {
+      filteredLayer.current = L.geoJSON(countriesData, {
+        onEachFeature: onEachCountry,
+        filter: filterData,
+      });
+      filteredLayer.current.addTo(mapRef.current);
+    } else {
+      filteredLayer.current?.remove();
+    }
+  }, [selector]);
+
+  const newStyle = {
+    fillColor: "#ddd",
+    weight: 2,
+    opacity: 1,
+    color: "#ddd",
+    dashArray: "3",
+    fillOpacity: 0.7,
+  };
 
   useEffect(() => {
+    //checking if geoJSON layer exists and destroying it in order to avoid duplication of reference on of new one
+    if (mapRef.current) {
+      mapRef.current.remove();
+    }
+    //
     mapRef.current = L.map("map", {
-      center: [0, 0],
-      zoom: 1,
-      layers: [
-        L.geoJSON(countriesData, {
-          onEachFeature: onEachCountry,
-          style: stylizacja,
-        }),
-      ],
+      center: [52, 20],
+      zoom: 3,
+      layers: [baseLayer.setStyle(stylizacja)],
     });
-  }, []);
+  }, [dayOnMapNumber, countriesData]);
 
-  return <div id="map" />;
+  return (
+    <div className="map__container">
+      <div id="map" />
+      <Legend />
+    </div>
+  );
 }
 export default CovidMap;

@@ -1,0 +1,17 @@
+.legendItem {
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+  margin-left: 2px;
+}
+.legendItem:hover {
+  opacity: 1;
+  border: 1px solid black;
+}
+.legentItem__colorBox {
+  margin-right: 5px;
+  display: flex;
+  border: 1px solid black;
+  width: 10px;
+  height: 10px;
+}

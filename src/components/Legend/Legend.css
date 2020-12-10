@@ -1,0 +1,19 @@
+.legend {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin: 2px;
+  padding: 5px;
+  color: black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  /* wyłączenie możliwości selekcji legendy */
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
