@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignContent: "center",
     alignItems: "center",
-    width: "90vw",
+    width: "50vw",
     margin: "auto",
   },
 });
@@ -19,19 +19,24 @@ const useStyles = makeStyles({
 export default function DiscreteSlider() {
   const [{ covidData }, dispatch] = useStateValue({});
 
-  const classes = useStyles();
+  const classes = useStyles(); //expected by slider
 
   const handleSliderChange = (event, value) => {
     dispatch({
       type: "SET_DAY_NUMBER",
-      dayOnMapNumber: value,
+      dayOnMapNumber: value ? value : covidData["AFG"]?.data.length - 1,
     });
   };
 
   return (
     <div className={classes.root}>
-      <Typography id="discrete-slider" gutterBottom>
-        Move to the date:
+      <Typography
+        id="discrete-slider"
+        gutterBottom
+        style={{ marginTop: "0.7rem", fontSize: "0.7rem" }}
+      >
+        {" "}
+        Scroll to the date:
       </Typography>
       <Slider
         defaultValue={covidData["AFG"]?.data.length - 1}

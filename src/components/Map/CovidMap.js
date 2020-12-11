@@ -87,18 +87,18 @@ function CovidMap() {
       ]?.date;
 
     layer.bindPopup(
-      `Kraj: ${name} <br/> Stan na dzień: ${data} <hr/> Nowych zachorowań: ${total_cases} <hr/>`
+      `Date: ${data} <hr/>Country: ${name} <br/> Cases: ${total_cases} <hr/>`
     );
   };
 
   const filterData = (features, layer) => {
-    return (
+    const filtr =
       covidData[features.properties.ISO_A3]?.data[
         dayOnMapNumber
           ? dayOnMapNumber
           : covidData[features.properties.ISO_A3]?.data.length - 1
-      ]?.new_cases > selector
-    );
+      ]?.new_cases;
+    return filtr >= selector[0] && filtr <= selector[1];
   };
 
   // create map - tworzenie mapy
@@ -107,6 +107,7 @@ function CovidMap() {
   const baseLayer = L.geoJSON(countriesData, {
     onEachFeature: onEachCountry,
   });
+
   const filteredLayer = useRef(null);
   useEffect(() => {
     if (selector !== null) {
@@ -119,15 +120,6 @@ function CovidMap() {
       filteredLayer.current?.remove();
     }
   }, [selector]);
-
-  const newStyle = {
-    fillColor: "#ddd",
-    weight: 2,
-    opacity: 1,
-    color: "#ddd",
-    dashArray: "3",
-    fillOpacity: 0.7,
-  };
 
   useEffect(() => {
     //checking if geoJSON layer exists and destroying it in order to avoid duplication of reference on of new one
@@ -144,8 +136,10 @@ function CovidMap() {
 
   return (
     <div className="map__container">
-      <div id="map" />
-      <Legend />
+      <div>
+        <div id="map" />
+        <Legend />
+      </div>
     </div>
   );
 }

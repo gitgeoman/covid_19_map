@@ -1,19 +1,19 @@
-#map {
-  background-color: lightblue;
-}
 .map__container {
+  display: flex;
+  justify-content: center;
   color: white;
   position: relative;
-  width: auto;
+  width: fit-content%;
   margin-left: auto;
   margin-right: auto;
 }
 .leaflet-container {
 }
 #map {
+  background-color: lightblue;
   border-radius: 5px;
   border: 1px solid #111;
   height: 70vh;
   min-height: 500px;
-  width: 95vw;
+  width: 80vw;
 }

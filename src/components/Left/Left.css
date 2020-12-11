@@ -1,0 +1,9 @@
+.left {
+  display: flex;
+
+  flex-direction: column;
+  width: 15vw;
+  margin: 15px;
+  margin-top: 10em;
+  font-size: 12px;
+}

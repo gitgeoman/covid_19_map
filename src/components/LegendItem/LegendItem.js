@@ -2,7 +2,7 @@ import React from "react";
 import { useStateValue } from "../Context/StateProvider";
 import "./LegendItem.css";
 
-function LegendItem({ title, color, id }) {
+function LegendItem({ title, color, range }) {
   const [, dispatch] = useStateValue();
   return (
     <div
@@ -10,7 +10,7 @@ function LegendItem({ title, color, id }) {
       onMouseOver={() =>
         dispatch({
           type: "SET_SELECTED_DATA_FROM_LEGEND",
-          selector: id,
+          selector: range,
         })
       }
       onMouseOut={() =>

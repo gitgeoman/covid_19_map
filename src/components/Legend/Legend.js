@@ -9,8 +9,15 @@ function Legend() {
   return (
     <div className="legend">
       <h6>Sars Cov 2 - Cases</h6>
-      {legend.map(({ color, desc, value }) => {
-        return <LegendItem key={value} id={value} color={color} title={desc} />;
+      {legend.map(({ color, desc, value, value1 }) => {
+        return (
+          <LegendItem
+            key={value}
+            range={[value, value1]}
+            color={color}
+            title={desc}
+          />
+        );
       })}
     </div>
   );
