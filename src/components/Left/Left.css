@@ -1,6 +1,5 @@
-.left {
+.left__Card {
   display: flex;
-
   flex-direction: column;
   width: 15vw;
   margin: 15px;

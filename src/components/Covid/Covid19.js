@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./Covid.css";
 
 import axios from "axios";
@@ -10,28 +10,17 @@ import Loading from "../Loading/Loading";
 import CovidMap from "../Map/CovidMap";
 import DiscreteSlider from "../Slider/Slider";
 
-//icons
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import PauseIcon from "@material-ui/icons/Pause";
-import CountryCard from "../CountryCard/CountryCard";
-import Left from "../Left/Left";
+import MyChart from "../Chart/MyChart";
+import Player from "../Player/Player";
+import Header from "../Header/Header";
+
+import SelectedCountryCard from "../SelectedCountryCard/SelectedCountryCard";
+import WorldCard from "../SelectedCountryCard/WorldCard";
 
 function Covid() {
-  const [{ covidData, dayOnMapNumber, play }, dispatch] = useStateValue({});
+  const [{ covidData, selectedCountry }, dispatch] = useStateValue({});
 
-  useEffect(() => {
-    if (play !== false) {
-      setTimeout((event) => {
-        console.log(event, dayOnMapNumber, dayOnMapNumber + 1);
-        dispatch({
-          type: "SET_DAY_NUMBER",
-          dayOnMapNumber: dayOnMapNumber + 1,
-        });
-      }, 1000);
-    }
-  }, [play, dayOnMapNumber]);
-
-  //pobieram dane nt covid
+  //fetching the data
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
@@ -43,7 +32,9 @@ function Covid() {
       });
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
+
+  //end of fetching data
 
   return (
     <div className="covid">
@@ -51,48 +42,16 @@ function Covid() {
         <Loading />
       ) : (
         <div className="covid__afterLoad">
-          <div className="covid__left">
-            <Left />
+          <Header />
+          <CovidMap />
+          <div className="covid__playerSlider" style={{ paddingTop: "20px" }}>
+            <Player />
+            <DiscreteSlider />
           </div>
-          <div className="covid__center">
-            <div className="covid__header">
-              <h3>Covid situation </h3>
-              <div>
-                <h6>
-                  Map of{" "}
-                  <span style={{ color: "green" }}>
-                    {dayOnMapNumber ? ` ${dayOnMapNumber} th ` : " present "}
-                  </span>
-                  day of pandemy.
-                </h6>
-              </div>
-            </div>
-            <div className="covid__containerOfMapLegendSlider">
-              <CovidMap />
-              <DiscreteSlider />
-              <div className="covid__buttons">
-                {play !== true ? (
-                  <PlayArrowIcon
-                    className="covid__button"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      dispatch({ type: "SET_PLAY", play: true });
-                    }}
-                  />
-                ) : (
-                  <PauseIcon
-                    className="covid__button"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      dispatch({ type: "SET_PLAY", play: false });
-                    }}
-                  />
-                )}
-              </div>
-            </div>
+          <div className="covid__charts">
+            {selectedCountry ? <SelectedCountryCard /> : <WorldCard />}
+            <MyChart />
           </div>
-
-          {/* <CountryTable /> */}
         </div>
       )}
     </div>

@@ -1,0 +1,14 @@
+.leftCard {
+}
+.left__Card {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+}
+.left__world > h5 {
+  text-align: center;
+}
+
+.left__date > h6 {
+  text-align: center;
+}

@@ -1,0 +1,10 @@
+.player__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.player__button {
+  cursor: pointer;
+
+  margin: 2px;
+}

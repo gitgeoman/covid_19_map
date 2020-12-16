@@ -1,11 +1,11 @@
 .map__container {
   display: flex;
   justify-content: center;
-  color: white;
+
   position: relative;
-  width: fit-content%;
-  margin-left: auto;
-  margin-right: auto;
+  width: fit-content;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
 }
 .leaflet-container {
 }
@@ -13,7 +13,10 @@
   background-color: lightblue;
   border-radius: 5px;
   border: 1px solid #111;
-  height: 70vh;
+  height: 50vh;
   min-height: 500px;
-  width: 80vw;
+  width: 95vw;
+  -webkit-box-shadow: 10px 10px 16px -9px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 16px -9px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 16px -9px rgba(0, 0, 0, 0.75);
 }

@@ -1,18 +1,11 @@
-.covid__afterLoad {
+.covid__playerSlider {
   display: flex;
-}
-
-.covid__header {
-  margin-top: 1vh;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 1vw 2.5vw;
 }
-
-.covid__containerOfMapLegendSlider {
+.covid__charts {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
 }

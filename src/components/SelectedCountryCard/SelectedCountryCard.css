@@ -1,0 +1,15 @@
+.selectedCountryCard > h6 {
+  text-align: center;
+}
+.selectedCountryCard {
+  margin: 10px;
+  width: 25vw;
+  padding: 10px;
+  font-size: small;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  -webkit-box-shadow: 10px 10px 16px -9px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 16px -9px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 16px -9px rgba(0, 0, 0, 0.75);
+}

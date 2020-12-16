@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "./CovidMap.css";
 //import leaflet
 import L from "leaflet";
@@ -6,11 +6,21 @@ import "leaflet/dist/leaflet.css";
 
 //data from context
 import { useStateValue } from "../Context/StateProvider";
+
 import Legend from "../Legend/Legend";
+import MyChart from "../Chart/MyChart";
 
 function CovidMap() {
   const [
-    { countriesData, covidData, dayOnMapNumber, legend, selector },
+    {
+      countriesData,
+      covidData,
+      dayOnMapNumber,
+      legend,
+      selector,
+      selectedCountry,
+    },
+    dispatch,
   ] = useStateValue();
 
   //function stylisation
@@ -69,28 +79,36 @@ function CovidMap() {
     };
   }
 
-  //on each country function to set the actual data
+  //on each country function to set the data on selected day
   const onEachCountry = (features, layer) => {
     const name = features.properties.ADMIN;
 
-    const total_cases =
-      covidData[features.properties.ISO_A3]?.data[
-        dayOnMapNumber
-          ? dayOnMapNumber
-          : covidData[features.properties.ISO_A3]?.data.length - 1
-      ]?.new_cases;
+    const total_cases = covidData[features.properties.ISO_A3]?.data[
+      dayOnMapNumber?.toLocaleString()
+        ? dayOnMapNumber
+        : covidData[features.properties.ISO_A3]?.data.length - 1
+    ]?.new_cases?.toLocaleString();
     const data =
       covidData[features.properties.ISO_A3]?.data[
         dayOnMapNumber
           ? dayOnMapNumber
           : covidData[features.properties.ISO_A3]?.data.length - 1
       ]?.date;
-
+    //onclik thta sets the state  // wiążący obiekt ze stanem
+    layer.on({
+      click: (event) => {
+        dispatch({
+          type: "SET_SELECTED_COUNTRY",
+          selectedCountry: event.target.feature.properties.ISO_A3,
+        });
+      },
+    });
     layer.bindPopup(
-      `Date: ${data} <hr/>Country: ${name} <br/> Cases: ${total_cases} <hr/>`
+      `Date: ${data} <hr/>Country: ${name} <br/> Cases: ${total_cases} <hr/>
+      `
     );
   };
-
+  //the filtering for selected in legend items
   const filterData = (features, layer) => {
     const filtr =
       covidData[features.properties.ISO_A3]?.data[
@@ -103,11 +121,14 @@ function CovidMap() {
 
   // create map - tworzenie mapy
   const mapRef = useRef(null);
-  //definicja warstwy podstawowej
+
+  //definicja warstwy podstawowej zawierającej wszystkie dane, są one następnie w onEachLayer
+
   const baseLayer = L.geoJSON(countriesData, {
     onEachFeature: onEachCountry,
   });
 
+  //data that were hovered on
   const filteredLayer = useRef(null);
   useEffect(() => {
     if (selector !== null) {
@@ -128,11 +149,11 @@ function CovidMap() {
     }
     //
     mapRef.current = L.map("map", {
-      center: [52, 20],
-      zoom: 3,
+      center: [0, 0],
+      zoom: 1,
       layers: [baseLayer.setStyle(stylizacja)],
     });
-  }, [dayOnMapNumber, countriesData]);
+  }, [dayOnMapNumber]);
 
   return (
     <div className="map__container">

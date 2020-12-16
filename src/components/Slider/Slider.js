@@ -11,8 +11,9 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignContent: "center",
     alignItems: "center",
-    width: "50vw",
+    width: "85%",
     margin: "auto",
+    padding: "0 0 0 2.5vw",
   },
 });
 
@@ -33,11 +34,12 @@ export default function DiscreteSlider() {
       <Typography
         id="discrete-slider"
         gutterBottom
-        style={{ marginTop: "0.7rem", fontSize: "0.7rem" }}
-      >
-        {" "}
-        Scroll to the date:
-      </Typography>
+        style={{
+          marginTop: "0.1rem",
+
+          fontSize: "0.7rem",
+        }}
+      ></Typography>
       <Slider
         defaultValue={covidData["AFG"]?.data.length - 1}
         aria-labelledby="discrete-slider"
