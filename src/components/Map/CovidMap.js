@@ -8,18 +8,10 @@ import "leaflet/dist/leaflet.css";
 import { useStateValue } from "../Context/StateProvider";
 
 import Legend from "../Legend/Legend";
-import MyChart from "../Chart/MyChart";
 
 function CovidMap() {
   const [
-    {
-      countriesData,
-      covidData,
-      dayOnMapNumber,
-      legend,
-      selector,
-      selectedCountry,
-    },
+    { countriesData, covidData, dayOnMapNumber, legend, selector },
     dispatch,
   ] = useStateValue();
 

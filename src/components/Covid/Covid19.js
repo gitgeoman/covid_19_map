@@ -48,6 +48,7 @@ function Covid() {
             <Player />
             <DiscreteSlider />
           </div>
+
           <div className="covid__charts">
             {selectedCountry ? <SelectedCountryCard /> : <WorldCard />}
             <MyChart />

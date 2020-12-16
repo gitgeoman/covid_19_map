@@ -1,6 +1,6 @@
 import React from "react";
 import { useStateValue } from "../Context/StateProvider";
-import CloseIcon from "@material-ui/icons/Close";
+
 import "./SelectedCountryCard.css";
 
 function WorldCard() {

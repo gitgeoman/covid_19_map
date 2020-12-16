@@ -3,7 +3,7 @@ import { useStateValue } from "../Context/StateProvider";
 import "./Header.css";
 
 function Header() {
-  const [{ dayOnMapNumber }, dispatch] = useStateValue({});
+  const [{ dayOnMapNumber }] = useStateValue({});
 
   return (
     <div className="header">
