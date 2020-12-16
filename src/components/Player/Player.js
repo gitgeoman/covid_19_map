@@ -11,7 +11,7 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import { useStateValue } from "../Context/StateProvider";
 
 function Player(props) {
-  const [{ play, dayOnMapNumber }, dispatch] = useStateValue({});
+  const [{ play, dayOnMapNumber, covidData }, dispatch] = useStateValue({});
 
   //animated map
   useEffect(() => {
@@ -31,8 +31,23 @@ function Player(props) {
     <div className="player">
       {" "}
       <div className="player__buttons">
-        <SkipPreviousIcon className="player__button" />
-        <NavigateBeforeIcon className="player__button" />
+        <SkipPreviousIcon
+          className="player__button"
+          onClick={() => {
+            dispatch({ type: "SET_DAY_NUMBER", dayOnMapNumber: 1 });
+          }}
+        />
+        <NavigateBeforeIcon
+          className="player__button"
+          onClick={() => {
+            if (dayOnMapNumber > 1) {
+              dispatch({
+                type: "SET_DAY_NUMBER",
+                dayOnMapNumber: dayOnMapNumber - 1,
+              });
+            }
+          }}
+        />
 
         {play !== true ? (
           <PlayArrowIcon
@@ -50,8 +65,27 @@ function Player(props) {
           />
         )}
 
-        <NavigateNextIcon className="player__button" />
-        <SkipNextIcon className="player__button" />
+        <NavigateNextIcon
+          className="player__button"
+          onClick={() => {
+            if (dayOnMapNumber < covidData["OWID_WRL"].data.length - 1) {
+              dispatch({
+                type: "SET_DAY_NUMBER",
+                dayOnMapNumber: dayOnMapNumber + 1,
+              });
+            }
+          }}
+        />
+        <SkipNextIcon
+          className="player__button"
+          className="player__button"
+          onClick={() => {
+            dispatch({
+              type: "SET_DAY_NUMBER",
+              dayOnMapNumber: covidData["OWID_WRL"].data.length - 1,
+            });
+          }}
+        />
       </div>
     </div>
   );
