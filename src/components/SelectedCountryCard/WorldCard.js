@@ -27,7 +27,7 @@ function WorldCard() {
             dayOnMapNumber
               ? dayOnMapNumber
               : covidData["OWID_WRL"]?.data.length - 1
-          ]?.new_cases.toLocaleString()}
+          ]?.new_cases?.toLocaleString()}
         </p>
         <p>
           <strong>new deaths: </strong>
@@ -35,7 +35,7 @@ function WorldCard() {
             dayOnMapNumber
               ? dayOnMapNumber
               : covidData["OWID_WRL"]?.data.length - 1
-          ]?.new_deaths.toLocaleString()}
+          ]?.new_deaths?.toLocaleString()}
         </p>
       </div>
     </>
